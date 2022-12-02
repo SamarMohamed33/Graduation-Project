@@ -1,0 +1,521 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trends</title>
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'css/all.min.css'%}">
+    <script src="{%static 'js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{%static 'js/bootstrap.bundle.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
+
+        body {
+            margin: 0;
+            padding: 0;
+            color: #f1f1f1;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        body ::-webkit-scrollbar-track {
+            background: #FAF9F6;
+        }
+
+        body ::-webkit-scrollbar-thumb {
+            background: #03071E;
+            border-radius: 20px;
+        }
+
+        body ::-webkit-scrollbar-thumb:hover {
+            background: #03071E;
+        }
+
+        .data {
+            cursor: pointer;
+        }
+
+        .data:hover {
+            background-color: #ADADAD;
+            border-radius: 20px;
+            color: #FAF9F6;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-row {
+            cursor: pointer;
+        }
+
+        .table-row:hover {
+            background-color: #EBEBEB;
+            color: #03071E;
+        }
+
+        li {
+            margin: 30px;
+            padding: 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        li p {
+            display: inline;
+            margin: 10px;
+            font-size: small;
+        }
+
+        .containerr {
+            display: flex;
+            flex-direction: row;
+            background-color: #FAF9F6;
+            height: 100vh;
+        }
+
+        .container-nav {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #03071E;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            text-decoration: none;
+            color: #FAF9F6;
+        }
+
+        .closebtn:hover {
+            color: #EBEBEB;
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #FAF9F6;
+            color: #03071E;
+            padding: 10px 15px;
+            border: none;
+        }
+
+
+
+        #main {
+            display: inline;
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        #main2 {
+            display: inline;
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        .container-nav nav {
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .container-table {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            width: 90%;
+            height: 100vh;
+        }
+
+        .navv {
+            color: black;
+        }
+
+        .navv a {
+            color: black;
+        }
+
+        .tablee {
+            flex-grow: 1;
+            overflow-y: scroll;
+        }
+
+        .dropbtn {
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: #FAF9F6;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        #userr {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .hint {
+            color: #03071E;
+            margin-left: 60px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+
+        }
+
+        .hint .hint11 {
+            width: 50%;
+        }
+
+        .hint .hint12 {
+            width: 50%;
+        }
+
+        .hint .hint12 a {
+            text-decoration: none;
+            color: #03071E;
+        }
+
+        .hint2 {
+            color: #03071E;
+            margin-left: 10px;
+            margin-bottom: 30px;
+            padding: 0;
+        }
+
+        .flexx {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+
+
+        }
+
+        .keyphrases {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        hr {
+            color: #03071E;
+        }
+
+        .table-containerr {
+            width: 90%;
+            background-color: #EBEBEB;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .table-containerr td {
+            border: none;
+        }
+
+        .table-containerr a {
+            text-decoration: none;
+            color: #03071E;
+        }
+
+        .data2:hover {
+            cursor: pointer;
+            background-color: #03071E;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="containerr">
+        <div class="container-nav" id="mySidebar">
+            <nav class="sidebar-navigation">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <ul>
+                    <li class="table-row" data-href="{% url 'home' %}">
+                        <i class="fa-solid fa-house fa-2x"></i>
+                        <p>Home</p>
+                    </li>
+                    <li class="table-row" data-href="{% url 'search' %}">
+                        <i class="fa-solid fa-magnifying-glass fa-2x"></i>
+                        <p>Search</p>
+                    </li>
+                    <li class="table-row" data-href="{% url 'insights_authors' %}">
+                        <i class="fa-solid fa-chart-column fa-2x"></i>
+                        <p>Insights</p>
+                    </li>
+                    <li class="table-row" data-href="{%url 'account'%}">
+                        <!--i class="fa-solid fa-newspaper fa-2x"></i-->
+                        <i class="fa-solid fa-user fa-2x"></i>
+                        <p>Profile</p>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="container-table">
+            <div class="navv">
+                <div id="main">
+                    <button class="openbtn" onclick="openNav()"><i class="fa-solid fa-angles-right"></i></button>
+                </div>
+
+                <div class="dropdown" style="float:right;">
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i> <span id="userr">{{ user.username }}</span>
+                        <i class="fa-solid fa-bars fa-1.5x"></i></button>
+                    <div class="dropdown-content">
+                        <a href="{%url 'account'%}">My account</a>
+                        <a href="{%url 'change_password'%}">Change password</a>
+                        <a href="{% url 'logout' %}"> Logout</a>
+                    </div>
+                </div>
+            </div>
+            <div class="tablee" id="main2">
+                <div class="hint">
+                    <div class="hint11">
+                        <h4>{{topic.name}}</h4>
+                        <pr>Topic</pr><br>
+                    </div>
+                    <div class="hint12">
+                        <h5> <a href="{% url 'field_example' topic.field_name_id %}">{{topic.field_name}}</a></h5>
+                        <pr>The Field of {{topic.name}}</pr>
+                    </div>
+                </div>
+                <hr>
+                <h5 class="hint2">Summary</h5>
+                <div class="flexx">
+                    <div class="flexx01">
+                        <canvas id="myChart" style="width:100%;max-width:400px; height: 300px;"></canvas>
+                        <script>
+                            var xValues = ["Citation Count", "Scholarly Output", "views_count"];
+                            var yValues = "{{topic_info}}";
+                            var b = yValues.split(' ').map(function (item) {
+                                return parseInt(item, 10);
+                            });
+
+
+                            var barColors = [
+                            "#FCA311",
+                                "#ADADAD",
+                                "#03071E",
+                                
+                            ];
+
+                            new Chart("myChart", {
+                                type: "pie",
+                                data: {
+                                    labels: xValues,
+                                    datasets: [{
+                                        backgroundColor: barColors,
+                                        data: b
+                                    }]
+                                },
+                                options: {
+                                    title: {
+                                        display: true,
+                                        text: "summary about {{topic.name}}"
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                    <div class="flexx02">
+                        <canvas id="myChart3" style="width:100%;max-width:500px;height: 300px;"></canvas>
+
+                        <script>
+                            var xValues = "{{array_publisher}}";
+                            var values1 = xValues.split(',', 3).map(function (item) {
+                                return item.toString()
+                            });
+                            var yValues = "{{array_count}}";
+                            var values2 = yValues.split(' ',3).map(function (item) {
+                                return parseInt(item, 10);
+                            });
+                            var barColors = [
+                            "#03071E",
+                                "#ADADAD",
+                                "#FCA311",
+                                
+                            ];
+
+                            new Chart("myChart3", {
+                                type: "doughnut",
+                                data: {
+                                    labels: values1,
+                                    datasets: [{
+                                        backgroundColor: barColors,
+                                        data: values2
+                                    }]
+                                },
+                                options: {
+                                    title: {
+                                        display: true,
+                                        text: "summary about {{topic.name}}"
+                                    },
+                                    
+                                    rotation: 1 * Math.PI,
+                                    circumference: 1 * Math.PI,
+
+                                    plugins: {
+                                        datalabels: {
+                                            formatter: (value) => {
+                                                return value + '%';
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+
+                    </div>
+
+                </div>
+                <hr>
+                <div class="keyphrases">
+                    <h5 class="hint2">keyphrases</h5>
+                    <canvas id="myChart1" style="width:100%;max-width:1000px;margin-left: auto;margin-right: auto;"></canvas>
+
+                    <script>
+
+                        var xArray = "{{array_relevace}}";
+                        var b = xArray.split(' ').map(function (item) {
+                            return parseFloat(item, 10);
+                        });
+                        var yArray = "{{array_names}}";
+                        var bb = yArray.split(',',15).map(function (item) {
+                            return item.toString()
+                        });
+
+                        new Chart("myChart1", {
+                            type: "horizontalBar",
+                            data: {
+                                labels: bb,
+                                datasets: [{
+                                    backgroundColor: "#03071E",
+                                    data: b
+                                }]
+                            },
+                            options: {
+                                legend: { display: false },
+                                title: {
+                                    display: true,
+                                    text: "Key Phrases Relevance"
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+                <hr>
+                <div class="table-containerr">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Document Name</th>
+                                <th>Citation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- jinja2 Technique -->
+
+                            {% for i in data %}
+                            <tr class="data" data-href="{% url 'document_info' i.document_id%}">
+                                <td><a>{{i.name}}</a></td>
+                                <td>{{i.cited_by}}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="data2" data-href="{%url 'all_documents' topic.topic_id%}">
+                                <td><a>All Documents</a></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <script>
+        $(document).ready(function ($) {
+            $(".table-row").click(function () {
+                window.document.location = $(this).data("href");
+            });
+        });
+        $(document).ready(function ($) {
+            $(".data").click(function () {
+                window.document.location = $(this).data("href");
+            });
+        });
+        $(document).ready(function ($) {
+            $(".data2").click(function () {
+                window.document.location = $(this).data("href");
+            });
+        });
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "150px";
+            document.getElementById("main").style.marginLeft = "150px";
+            document.getElementById("main2").style.marginLeft = "150px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.getElementById("main2").style.marginLeft = "0";
+        }
+
+    </script>
+</body>
+
+</html>

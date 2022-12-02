@@ -1,0 +1,365 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Author Insights</title>
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}" />
+    <link rel="stylesheet" href="{%static 'css/all.min.css'%}" />
+    <script src="{%static 'js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{%static 'js/bootstrap.bundle.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
+      body {
+        margin: 0;
+        padding: 0;
+        color: white;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      body ::-webkit-scrollbar-track {
+        background: #faf9f6;
+      }
+
+      body ::-webkit-scrollbar-thumb {
+        background: #03071e;
+        border-radius: 20px;
+      }
+
+      body ::-webkit-scrollbar-thumb:hover {
+        background: #03071e;
+      }
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .table-row {
+        cursor: pointer;
+      }
+
+      .table-row:hover {
+        background-color: #e5e5e5;
+        color: #03071e;
+      }
+
+      li {
+        margin: 30px;
+        padding: 10px;
+        border-radius: 20px;
+        text-align: center;
+      }
+
+      li p {
+        display: inline;
+        margin: 10px;
+        font-size: small;
+      }
+
+      .containerr {
+        display: flex;
+        flex-direction: row;
+        background-color: #faf9f6;
+        height: 100vh;
+      }
+
+      .container-nav {
+        width: 10%;
+        margin-left: 0px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: 100vh;
+        background-color: #03071e;
+      }
+
+      .container-nav nav {
+        font-weight: bolder;
+        text-align: center;
+      }
+
+      .container-table {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        width: 90%;
+        height: 100vh;
+      }
+
+      .navv {
+        color: black;
+      }
+
+      .navv a {
+        color: black;
+      }
+
+      .tablee {
+        flex-grow: 1;
+        overflow-y: scroll;
+      }
+
+      .container {
+        height: 50px;
+      }
+
+      .dropbtn {
+        color: black;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        background-color: #faf9f6;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 180px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      #userr {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      .label1 {
+        margin: 0.9%;
+        color: #03071e;
+        font-size: large;
+        font-weight: bolder;
+      }
+      .button1 {
+        background-color: #e5e5e5;
+        border-radius: 40px;
+        color: #03071e;
+        border: none;
+        height: 50px;
+        font-weight: 200;
+      }
+
+      .button1:hover {
+        background-color: #03071e;
+        color: white;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .field button {
+        margin: 5px;
+      }
+
+      .chart {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-top: 50px;
+      }
+
+      .chart1 {
+        width: 45%;
+      }
+
+      .chart2 {
+        width: 45%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="containerr">
+      <div class="container-nav">
+        <nav class="sidebar-navigation">
+          <ul>
+            <li class="table-row" data-href="{% url 'home' %}">
+              <i class="fa-solid fa-house fa-2x"></i>
+              <p>Home</p>
+            </li>
+            <li class="table-row" data-href="{% url 'search' %}">
+              <i class="fa-solid fa-magnifying-glass fa-2x"></i>
+              <p>Search</p>
+            </li>
+            <li class="table-row" data-href="{% url 'insights_authors' %}">
+              <i class="fa-solid fa-chart-column fa-2x"></i>
+              <p>Insights</p>
+            </li>
+            <li class="table-row" data-href="{%url 'news'%}">
+              <i class="fa-solid fa-newspaper fa-2x"></i>
+              <!--i class="fa-solid fa-user fa-2x"></i-->
+              <p>News</p>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="container-table">
+        <div class="navv">
+          <div class="dropdown" style="float: right">
+            <button class="dropbtn">
+              <i class="fa-solid fa-user"></i>
+              <span id="userr">{{ user.username }}</span>
+              <i class="fa-solid fa-bars fa-1.5x"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{%url 'account'%}">My account</a>
+              <a href="{%url 'change_password'%}">Change password</a>
+              <a href="{% url 'logout' %}"> Logout</a>
+            </div>
+          </div>
+          <div class="dropdown" style="float: left">
+            <button class="dropbtn"><span id="userr">Authors</span></button>
+            <div class="dropdown-content">
+              <a href="{%url 'insights_authors'%}">Graph</a>
+              <a href="{%url 'insights_authors_table'%}">Table</a>
+            </div>
+          </div>
+          <div class="dropdown" style="float: left">
+            <button class="dropbtn"><span id="userr">Keyphrases</span></button>
+            <div class="dropdown-content">
+              <a href="{%url 'insights_keyphrases'%}">Table</a>
+            </div>
+          </div>
+        </div>
+        <div class="tablee">
+          <div>
+            <h6 class="label1">Choose a Field:</h6>
+            <form method="post">
+              <div class="content">
+                {% csrf_token%}
+                <div class="field">
+                  {% for f in fields %}
+                  <button
+                    type="submit"
+                    class="button1"
+                    name="field_option"
+                    value="{{f.field_name}}"
+                  >
+                    {{f.field_name}}</button
+                  ><br />
+                  {% endfor %}
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="chart">
+            <div class="chart1">
+              <h6 class="label1">based on Citation Count</h6>
+              <canvas
+                id="myChart"
+                style="width: 100%; max-width: 800px"
+              ></canvas>
+
+              <script>
+                var xArray = "{{author_names}}";
+                var b = xArray.split("*", 5).map(function (item) {
+                  return item.toString();
+                });
+                var yArray = "{{citation_count}}";
+                var b1 = yArray.split("*", 10).map(function (item) {
+                  return parseFloat(item, 10);
+                });
+                new Chart("myChart", {
+                  type: "bar",
+                  data: {
+                    labels: b,
+                    datasets: [
+                      {
+                        backgroundColor: "#03071E",
+                        data: b1,
+                      },
+                    ],
+                  },
+                  options: {
+                    legend: { display: false },
+                  },
+                });
+              </script>
+            </div>
+            <div class="chart2">
+              <h6 class="label1">based on Scholarly Output</h6>
+              <canvas
+                id="myChart1"
+                style="width: 100%; max-width: 800px"
+              ></canvas>
+
+              <script>
+                var xArray = "{{author_names}}";
+                var b = xArray.split("*", 5).map(function (item) {
+                  return item.toString();
+                });
+                var y1Array = "{{scholarly_output}}";
+                var b2 = y1Array.split("*", 10).map(function (item) {
+                  return parseFloat(item, 10);
+                });
+
+                new Chart("myChart1", {
+                  type: "bar",
+                  data: {
+                    labels: b,
+                    datasets: [
+                      {
+                        backgroundColor: "#03071E",
+                        data: b2,
+                        fill: false,
+                      },
+                    ],
+                  },
+                  options: {
+                    legend: { display: false },
+                  },
+                });
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function ($) {
+        $(".table-row").click(function () {
+          window.document.location = $(this).data("href");
+        });
+      });
+      $(document).ready(function ($) {
+        $(".data").click(function () {
+          window.document.location = $(this).data("href");
+        });
+      });
+    </script>
+  </body>
+</html>

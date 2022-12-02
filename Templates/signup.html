@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Signup</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
+
+        *{
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+            background-color: rgb(245, 244, 248);
+            color: #03071E;
+            overflow: hidden;
+            font-size: 1.2em;
+        }
+        h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin: 0;
+            text-align: center;
+            color: #03071E;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+        }
+        .sub-cont {
+            width: 40%;
+        }
+        form input {
+            width: 100%;
+            line-height: 30px;
+            margin: 0px;
+            border: 1px solid rgba(29, 24, 24, 0.815);
+            color: white;
+            background-color: #FDF8ED;
+            border-radius: 3px;
+            text-decoration: none;
+            color: #181818;
+        }
+
+        form .sub {
+            background-color: #003C66;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            padding: 15px 20px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: 500;
+            transition: 0.7s ease;
+            margin-top: 12px;
+            width: 100%;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            display: center;   
+        }
+        form .sub:hover {
+            background-color: #00538F;
+            transform: scale(1.1);
+            color: white;
+        }
+        .links a{
+            text-decoration: none;
+        }
+        form ul{
+            display: none;
+        }
+        form label{
+            color: #03071E;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sub-cont">
+            <h1>Sign Up</h1>
+
+            <form method="post">
+                {% csrf_token%}
+                {{form.as_p}}
+                <div class="links">
+                    ALready a member? <a href="{% url 'signin'%}">Log In</a>
+                </div>
+                <button class="sub" type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+</body>

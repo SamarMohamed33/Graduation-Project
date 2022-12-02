@@ -1,0 +1,185 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <script src="{%static 'js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{%static 'js/bootstrap.bundle.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins",sans-serif;
+            font-weight: 300;
+            background: #fff;
+            color: #181818;
+        }
+
+        h1 {
+            font-size: 25px;
+            color: black;
+            text-align: center;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .container .list {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .form-element {
+            position: relative;
+            width: 150px;
+            height: 170px
+        }
+
+        .form-element:hover {
+            transform: scale(1.1);
+        }
+
+        .form-element input {
+            display: none;
+        }
+
+        .container .list {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .inside-form {
+            display: flex;
+            flex-direction: raw;
+            min-height: 15em;
+            gap: 20px;
+        }
+        .form-element label {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            background: #fff;
+            box-shadow: 0px 5px 20px 2px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 200ms ease-in-out;
+            border-radius: 5px;
+        }
+
+        .form-element .title {
+            font-size: 15px;
+            color: #555;
+            padding: 5px 0px;
+            transition: all 200ms ease-in-out;
+        }
+        .form-element label:before {
+            content: "✓";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            top: 8px;
+            left: 8px;
+            background: #003C66;
+            color: #fff;
+            text-align: center;
+            line-height: 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 200ms ease-in-out;
+        }
+
+        .form-element input:checked+label:before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .form-element input:checked+label .title {
+            color: #003C66;
+        }
+
+        .form-element input:checked+label {
+            border: 2px solid #003C66;
+        }
+
+        .btn {
+            background-color: #003C66;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            padding: 15px 20px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: 500;
+            transition: 0.7s ease;
+            margin: 20px 0px;
+            width: 20%;
+            text-align: center;
+            border: none;
+            align-items: center;
+            display: center;
+        }
+
+        .btn:hover {
+            background-color: rgba(15, 15, 27, 0.7);
+            transform: scale(1.1);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Choose your fields</h1>
+        <div class="list">
+            <form method="post">
+                <div class="inside-form">
+                    {% csrf_token%}
+                    {% for field in fields%}
+                    <div class="form-element">
+                        <input class="checkbox" type="checkbox" name="fields" id="{{field.field_name}}"
+                            value="{{field.field_name}}">
+
+                        <label for="{{field.field_name}}">
+                            <div class="title">{{field.field_name}}</div>
+                        </label>
+                    </div>
+                    {%endfor%}
+
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Done</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

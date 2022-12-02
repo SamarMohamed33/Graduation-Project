@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Signin</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+            background: #fff;
+            color: #181818;
+            overflow: hidden;
+            margin: 0;
+            border: 0;
+            font-size: larger;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #fff;
+        }
+
+        .left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0px;
+            margin-bottom: 100px;
+            overflow: auto;
+        }
+
+        .welcome {
+            font-size: large;
+            justify-content: flex-start;
+        }
+
+        .right {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: url("{% static 'images/ce.jpeg'%}");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+        }
+
+        form .item {
+            margin-top: 10px;
+        }
+
+        form label {
+            font-size: larger;
+        }
+
+        form input {
+            width: 100%;
+            line-height: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(34, 29, 29, 0.815);
+            color: white;
+            background-color: #FDF8ED;
+            border-radius: 3px;
+            text-decoration: none;
+            color: #181818;
+        }
+
+        .sub {
+            background-color: #003C66;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            padding: 15px 20px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: 500;
+            transition: 0.7s ease;
+            margin: 20px 0px;
+            width: 100%;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .sub:hover {
+            background-color: #00538F;
+            transform: scale(1.1);
+            color: white;
+        }
+
+        .links {
+            margin-top: 30px;
+        }
+        hr {
+            width: 80%;
+            border: none;
+            height: 2px;
+            background: #50494B;
+        }
+        form ul{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <h1>Sign In</h1>
+            <form method="post">
+                {% csrf_token%}
+                {{form.as_p}}
+                <button class="sub" type="submit" class="btn btn-primary">Sign In</button>
+                <hr>
+                <div class="links">
+                    Don't have an account?
+                    <a class="sub" type="submit" href="{% url 'signup'%}">Sign Up</a>
+                </div>
+            </form>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+
+</body>

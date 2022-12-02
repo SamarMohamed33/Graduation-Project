@@ -1,0 +1,544 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Top Topics</title>
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'css/all.min.css'%}">
+    <script src="{%static 'js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{%static 'js/bootstrap.bundle.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
+
+        body {
+            margin: 0;
+            padding: 0;
+            color: #f1f1f1;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        body ::-webkit-scrollbar-track {
+            background: #FAF9F6;
+        }
+
+        body ::-webkit-scrollbar-thumb {
+            background: #03071E;
+            border-radius: 20px;
+        }
+
+        body ::-webkit-scrollbar-thumb:hover {
+            background: #03071E;
+        }
+
+        body .containerrr {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        body .containerrr .card {
+            position: relative;
+            min-width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            margin: 0px;
+            background-color: #FAF9F6;
+            border: none;
+        }
+
+        body .containerrr .card .box {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: #E5E5E5;
+            border-radius: 15px;
+            display: flex;
+            overflow: hidden;
+        }
+
+        body .containerrr .card .box .content {
+            margin: auto;
+        }
+
+        body .containerrr .card .box .content a {
+            position: relative;
+            display: inline-block;
+            border-radius: 5px;
+            text-decoration: none;
+            color: black;
+            transition: 0.5s;
+        }
+
+        .content table {
+            font-size: large;
+        }
+
+        .content table td {
+            border: none;
+        }
+
+        .data {
+            cursor: pointer;
+        }
+
+        .data:hover {
+            background-color: #ADADAD;
+            border-radius: 20px;
+            color: black;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-row {
+            cursor: pointer;
+        }
+
+        .table-row:hover {
+            background-color: #E5E5E5;
+            color: #03071E;
+        }
+
+        li {
+            margin: 30px;
+            padding: 10px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        li p {
+            display: inline;
+            margin: 10px;
+            font-size: small;
+        }
+
+        .containerr {
+            display: flex;
+            flex-direction: row;
+            background-color: #FAF9F6;
+            height: 100vh;
+        }
+
+        .container-nav {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #03071E;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            text-decoration: none;
+            color: #FAF9F6;
+        }
+
+        .closebtn:hover {
+            color: #E5E5E5;
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #FAF9F6;
+            color: #03071E;
+            padding: 10px 15px;
+            border: none;
+        }
+
+
+
+        #main {
+            display: inline;
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        #main2 {
+            display: inline;
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        .container-nav nav {
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .container-table {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            width: 90%;
+            height: 100vh;
+        }
+
+        .navv {
+            color: black;
+        }
+
+        .navv a {
+            color: black;
+        }
+
+        .tablee {
+            flex-grow: 1;
+            overflow-y: scroll;
+        }
+
+        .cont {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .topic {
+            width: 200px;
+            height: 200px;
+            color: black;
+            background-color: #848586;
+            border-radius: 30px;
+        }
+
+        .container {
+            height: 50px;
+        }
+
+        .dropbtn {
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: #FAF9F6;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        #userr {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .hint {
+            color: #03071E;
+            margin-left: 60px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding: 0;
+        }
+
+        .hint2 {
+            color: #03071E;
+            margin-left: 10px;
+            margin-top: 30px;
+            margin-bottom: 0px;
+            padding: 0;
+        }
+
+        .btn-group button {
+            background-color: #E5E5E5;
+            /* Green background */
+            border: 1px solid #E5E5E5;
+            /* Green border */
+            color: #03071E;
+            /* White text */
+            padding: 10px 24px;
+            /* Some padding */
+            cursor: pointer;
+            /* Pointer/hand icon */
+            float: left;
+            /* Float the buttons side by side */
+            margin: 0px;
+        }
+
+        /* Clear floats (clearfix hack) */
+        .btn-group:after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .btn-group button:not(:last-child) {
+            border-right: none;
+            /* Prevent double borders */
+        }
+
+        /* Add a background color on hover */
+        .btn-group button:hover {
+            background-color: #2D4B8B;
+            border: 1px solid #2D4B8B;
+            color: white;
+        }
+
+        hr {
+            color: #03071E;
+        }
+
+        .container2 {
+            margin-top: 60px;
+        }
+
+        .left {
+            width: 90%;
+            background-color: #E5E5E5;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .left td {
+            border: none;
+        }
+
+        .left a {
+            text-decoration: none;
+            color: #03071E;
+        }
+
+        .right {
+            width: 100%;
+        }
+
+        .right canvas {
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: center;
+        }
+        .openbtn2 {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #03071E;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 5px;
+            transition: 0.5s;
+        }
+        .openbtn2:hover{
+            transform:scale(1.05) ;
+        }
+
+        .data2:hover {
+            cursor: pointer;
+            background-color: #2D4B8B;
+            color: white;
+        }
+        .trend-container{
+            display:flex ;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center ;
+
+        }
+        .graph-container{
+            width: 30%;
+            height: 30%;
+            background-color:#FAF9F6;
+            margin: 25px;
+        }
+        .graph-container a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: large;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="containerr">
+        <div class="container-nav" id="mySidebar">
+            <nav class="sidebar-navigation">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <ul>
+                    <li class="table-row" data-href="{% url 'home' %}">
+                        <i class="fa-solid fa-house fa-2x"></i>
+                        <p>Home</p>
+                    </li>
+                    <li class="table-row" data-href="{% url 'search' %}">
+                        <i class="fa-solid fa-magnifying-glass fa-2x"></i>
+                        <p>Search</p>
+                    </li>
+                    <li class="table-row" data-href="{% url 'insights_authors' %}">
+                        <i class="fa-solid fa-chart-column fa-2x"></i>
+                        <p>Insights</p>
+                    </li>
+                    <li class="table-row" data-href="{%url 'account'%}">
+                        <i class="fa-solid fa-newspaper fa-2x"></i>
+                        <p>News</p>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="container-table">
+            <div class="navv">
+                <div id="main">
+                    <button class="openbtn" onclick="openNav()"><i class="fa-solid fa-angles-right"></i></button>
+                    <a class="navbar-brand" href="{%url 'search_field_info' field_name%}">Trending Topics</a>
+                    <a class="navbar-brand" href="{%url 'field_example' field_name%}">Top Topics</a>
+                    <a class="navbar-brand" href="{% url 'field_example_authors' field_name %}">Top Authors</a>
+                    <a class="navbar-brand" href="{%url 'field_summary' field_name %}">Keyphrases</a>
+                </div>
+
+                <div class="dropdown" style="float:right;">
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i> <span id="userr">{{ user.username }}</span>
+                        <i class="fa-solid fa-bars fa-1.5x"></i></button>
+                    <div class="dropdown-content">
+                        <a href="{%url 'account'%}">My account</a>
+                        <a href="{%url 'change_password'%}">Change password</a>
+                        <a href="{% url 'logout' %}"> Logout</a>
+                    </div>
+                </div>
+            </div>
+            <div class="tablee" id="main2">
+                <div class="hint">
+                    <h4>{{field_name}}</h4>
+                    <pr>Field</pr>
+                </div>
+                <hr>
+               
+                <div>
+                    <h5 class="hint2">Trending Topics in this Research Area over the time</h5>
+                </div>
+                <div class="trend-container">
+                    {% for i in data %}
+                    <div class="graph-container">
+                        <a href="{%url 'topic_info' i.ids %}" >{{i.topic_name}}</a>
+                        
+                        <canvas id="myChart{{ i.topic_name }}" style="width:100%;max-width:800px ;margin-top:15px"></canvas>
+                        <script>
+                            var xValues = "{{i.years}}";
+                            var values1 = xValues.split('*').map(function (item) {
+                                return item.toString()
+                            });
+                            var yValues = "{{i.scholarly_output}}";
+                            var values2 = yValues.split('*').map(function (item) {
+                                return parseInt(item, 10);
+                            });
+            
+                            new Chart("myChart{{ i.topic_name }}", {
+                                type: "line",
+                                data: {
+                                    labels: values1,
+                                    datasets: [{
+                                        fill: false,
+                                        lineTension: 0,
+                                        backgroundColor: "black",
+                                        borderColor: "rgba(0,0,255,0.1)",
+                                        data: values2
+                                    }]
+                                },
+                                options: {
+                                    legend: { display: false },
+                                    /*scales: {
+                                        yAxes: [{ ticks: { min: 6, max: 16 } }],
+                                    }*/
+                                }
+                            });
+                        </script>
+            
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <script>
+           
+            $(document).ready(function ($) {
+                $(".table-row").click(function () {
+                    window.document.location = $(this).data("href");
+                });
+            });
+            $(document).ready(function ($) {
+                $(".data").click(function () {
+                    window.document.location = $(this).data("href");
+                });
+            });
+            $(document).ready(function ($) {
+                $(".data2").click(function () {
+                    window.document.location = $(this).data("href");
+                });
+            });
+            function openNav() {
+                document.getElementById("mySidebar").style.width = "150px";
+                document.getElementById("main").style.marginLeft = "150px";
+                document.getElementById("main2").style.marginLeft = "150px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidebar").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+                document.getElementById("main2").style.marginLeft = "0";
+            }
+            $('.left').hide();
+            $('.openbtn2').on('click',
+                function () {
+                    $('.left, .right').toggle(200);
+                }
+            );
+        </script>
+</body>
+
+</html>
